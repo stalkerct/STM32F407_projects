@@ -16,9 +16,15 @@
 
 #include "stm32f4xx.h"
 
+/* 板级初始化：设定向量表基址 + 启动 SysTick 计时源。
+ * 延时函数依赖它，所以必须先调用 board_init() 再用 delay_xxx()。 */
 void board_init(void);
+
+/* 延时函数，全部是轮询阻塞式实现，不要在中断里调用。
+ *   delay_us()  与 delay_1us() 等价，微秒级
+ *   delay_1ms() 毫秒级
+ * 注意：早期声明过的 delay_ms() 已废弃（.c 里没有实现），统一改用 delay_1ms()。 */
 void delay_us(uint32_t _us);
-void delay_ms(uint32_t _ms);
 void delay_1ms(uint32_t ms);
 void delay_1us(uint32_t us);
 

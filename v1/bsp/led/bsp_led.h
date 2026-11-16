@@ -14,8 +14,11 @@ typedef enum
 } led_state_t;
 
 /*
- * 外部可调用函数
- * led 取值 1 ~ 4，1 对应原理图上的 LED1，依次类推
+ * led 取值 1 ~ 4，1 对应原理图上的 LED1，依次类推；越界的编号会被静默忽略。
+ *
+ * 硬件是低电平点亮（阳极经 1K 电阻接 3.3V，阴极接 PD3~PD6），
+ * 但这个极性已经在本模块内部处理掉了，调用者直接给 LED_ON / LED_OFF 即可，
+ * 不需要自己取反。
  */
 void bsp_led_init(void);
 void bsp_led_set(uint8_t led, led_state_t state);
